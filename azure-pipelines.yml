@@ -1,0 +1,63 @@
+trigger:
+  - main
+  - develop
+
+pr:
+  - main
+  - develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+strategy:
+  matrix:
+    Chromium:
+      BROWSER: chromium
+    Firefox:
+      BROWSER: firefox
+    WebKit:
+      BROWSER: webkit
+
+variables:
+  NODE_VERSION: '18.x'
+  BASE_URL: 'https://www.saucedemo.com'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '$(NODE_VERSION)'
+    displayName: 'Install Node.js'
+
+  - task: Npm@1
+    inputs:
+      command: 'ci'
+    displayName: 'Install dependencies'
+
+  - task: CmdLine@2
+    inputs:
+      script: 'npx playwright install --with-deps'
+    displayName: 'Install Playwright browsers'
+
+  - task: CmdLine@2
+    inputs:
+      script: 'npx playwright test --project=$(BROWSER)'
+    displayName: 'Run Playwright tests'
+    continueOnError: true
+
+  - task: PublishTestResults@2
+    condition: always()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/junit.xml'
+      searchFolder: '$(System.DefaultWorkingDirectory)/test-results'
+      mergeTestResults: true
+      failTaskOnFailedTests: true
+    displayName: 'Publish test results'
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    inputs:
+      pathToPublish: '$(System.DefaultWorkingDirectory)/test-results/html'
+      artifactName: 'html-report-$(BROWSER)'
+      publishLocation: 'Container'
+    displayName: 'Publish HTML report'

@@ -1,0 +1,198 @@
+
+You are a Senior QA Automation Engineer with expertise in Playwright + TypeScript.
+
+
+# 📥 INPUT ORDER (CRITICAL)
+
+1. FIRST: Read and strictly follow THIS prompt file (instructions & rules)
+2. SECOND: Read the specification file:
+   `spec/sauce-demo-e2e-test-plan.md`
+
+⚠️ Do NOT start generating code until BOTH files are fully processed.
+
+
+Generate a complete, production-ready Playwright automation framework and test implementation based on:
+specs/saucedemo-comprehensive-test-plan.md
+
+====================================================
+📁 1. PROJECT STRUCTURE
+====================================================
+
+Follow this structure:
+
+tests/
+  feature-based/
+    auth/
+    products/
+    cart/
+    checkout/
+    navigation/
+    business-rules/
+
+pages/
+  login.page.ts
+  inventory.page.ts
+  product.page.ts
+  cart.page.ts
+  checkout.page.ts
+
+utils/
+  helpers.ts
+  test-data.ts
+
+fixtures/
+  base.fixture.ts
+
+playwright.config.ts
+.env
+.github/workflows/playwright.yml
+
+====================================================
+🧪 2. TEST IMPLEMENTATION
+====================================================
+
+- Generate Playwright TypeScript tests for ALL scenarios
+- Each scenario → separate `.spec.ts` file
+- File naming: kebab-case
+
+Example:
+tests/feature-based/auth/login.spec.ts
+
+- Use:
+  - `test.describe()`
+  - `test()`
+  - Playwright Test runner (`@playwright/test`)
+
+- Follow: Arrange → Act → Assert
+
+====================================================
+✅ 3. ASSERTIONS
+====================================================
+
+Add strong assertions for:
+- URL validation
+- Element visibility
+- Text content
+- Error messages
+- Cart count
+- Sorting correctness
+- Checkout totals (including 8% tax)
+- Business rules validation
+
+====================================================
+🧱 4. PAGE OBJECT MODEL (POM)
+====================================================
+
+Create reusable page classes:
+
+Example:
+
+LoginPage:
+- goto()
+- login(username, password)
+
+InventoryPage:
+- getProducts()
+- addToCart(productName)
+- sort(option)
+
+CartPage:
+- getCartItems()
+- removeItem()
+
+CheckoutPage:
+- fillCustomerInfo()
+- completeOrder()
+
+✅ Requirements:
+- Use constructor(page: Page)
+- Store locators
+- Reusable clean methods
+- No test logic inside POM
+
+====================================================
+🧩 5. FIXTURES
+====================================================
+
+Create custom fixtures:
+
+fixtures/base.fixture.ts
+
+- Pre-configured page
+- Auto-login fixture
+- Test data injection
+
+Use:
+test.extend()
+
+====================================================
+🛠️ 6. UTILITIES
+====================================================
+
+Create reusable helpers:
+
+utils/helpers.ts:
+- loginHelper()
+- addToCartHelper()
+
+utils/test-data.ts:
+- usernames
+- product names
+- test constants
+
+====================================================
+⚙️ 7. PLAYWRIGHT CONFIG
+====================================================
+
+playwright.config.ts should include:
+- baseURL (from .env)
+- retries
+- parallel execution
+- reporter (html)
+- screenshots on failure
+- trace on failure
+
+====================================================
+🔐 8. ENVIRONMENT CONFIG
+====================================================
+
+.env file:
+BASE_URL=https://www.saucedemo.com
+
+====================================================
+
+====================================================
+📌 9. BEST PRACTICES
+====================================================
+
+- Use `getByRole`, `getByText`, or test IDs
+- Avoid hard waits
+- Use `await expect()`
+- Keep tests independent
+- Use `beforeEach` only for setup
+- Keep code clean and readable
+
+====================================================
+📊 10. OUTPUT REQUIREMENTS
+====================================================
+
+Generate:
+
+✅ Full framework code  
+✅ All test files  
+✅ Page Object classes  
+✅ Fixtures  
+✅ Utilities  
+✅ Playwright config  
+✅ GitHub Actions pipeline  
+✅ Azure DevOps pipeline  
+
+❌ Do NOT generate placeholders  
+✅ Provide complete working code
+
+====================================================
+🎯 GOAL
+====================================================
+
+Deliver a real-world, scalable, maintainable Playwright automation framework that a QA team can directly use in production.
+
